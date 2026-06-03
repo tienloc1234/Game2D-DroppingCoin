@@ -7,6 +7,7 @@ TagManager:
   - Coin
   - Trap
   - DeathZone
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -61,6 +62,9 @@ TagManager:
     locked: 0
   - name: ForeGround
     uniqueID: 2716505239
+    locked: 0
+  - name: Enemy
+    uniqueID: 781835735
     locked: 0
   - name: Player
     uniqueID: 986151483

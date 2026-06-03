@@ -23,5 +23,9 @@ public class PlayerCollision : MonoBehaviour
         {
             gameManager.GameOver();
         }
+        if (collision.CompareTag("Enemy"))
+        {
+            gameManager.GameOver();
+        }
     }
 }
