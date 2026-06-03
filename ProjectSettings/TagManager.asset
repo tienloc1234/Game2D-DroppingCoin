@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - Coin
+  - Trap
+  - DeathZone
   layers:
   - Default
   - TransparentFX
@@ -43,22 +45,31 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: BackGround
-    uniqueID: 1242077269
+    uniqueID: 289594031
+    locked: 0
+  - name: BackGround4
+    uniqueID: 3690038877
+    locked: 0
+  - name: Background2
+    uniqueID: 432159479
+    locked: 0
+  - name: BackGround3
+    uniqueID: 1385960279
     locked: 0
   - name: Ground
-    uniqueID: 752549315
+    uniqueID: 1682166337
     locked: 0
   - name: ForeGround
-    uniqueID: 3639176227
+    uniqueID: 2716505239
     locked: 0
   - name: Player
-    uniqueID: 2927427455
+    uniqueID: 986151483
     locked: 0
   - name: Item
-    uniqueID: 2240886381
+    uniqueID: 3477562127
     locked: 0
-  - name: UI
-    uniqueID: 3185999503
+  - name: Ui
+    uniqueID: 3070196965
     locked: 0
   m_RenderingLayers:
   - Default

@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     private GameManager gameManager;
+
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
@@ -11,10 +12,16 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collision.CompareTag("Coin"))
         {
-            gameManager.AddScore(1);
-            Debug.Log("Hit Coin");
             Destroy(collision.gameObject);
+            gameManager.AddScore(1);
+        }
+        if (collision.CompareTag("Trap"))
+        {
+            gameManager.GameOver();
+        }
+        if (collision.CompareTag("DeathZone"))
+        {
+            gameManager.GameOver();
         }
     }
-    
 }
