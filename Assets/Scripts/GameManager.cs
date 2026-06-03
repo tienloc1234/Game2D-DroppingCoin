@@ -47,4 +47,9 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    public bool IsGameOver()
+    {
+        return isGameOver;
+    }
+
 }
