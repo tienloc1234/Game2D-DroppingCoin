@@ -13,6 +13,7 @@ public class PlayerCollision : MonoBehaviour
         {
             gameManager.AddScore(1);
             Debug.Log("Hit Coin");
+            Destroy(collision.gameObject);
         }
     }
     
