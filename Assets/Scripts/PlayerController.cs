@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameManager.IsGameOver()) return;
+        if (gameManager.IsGameOver() || gameManager.IsGameWin()) return;
         HandleMovement();
         HandleJump();
         UpdateAnimation();

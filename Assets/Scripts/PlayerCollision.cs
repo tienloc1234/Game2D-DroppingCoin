@@ -27,5 +27,10 @@ public class PlayerCollision : MonoBehaviour
         {
             gameManager.GameOver();
         }
+        if (collision.CompareTag("Key"))
+        {
+            Destroy(collision.gameObject);
+            gameManager.GameWin();
+        }
     }
 }
