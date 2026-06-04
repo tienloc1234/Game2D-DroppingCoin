@@ -17,5 +17,11 @@ public class PlayerCollision : MonoBehaviour
             Debug.Log("Hit Coin");
             Destroy(collision.gameObject);
         }
+        if (collision.CompareTag("Key"))
+        {
+            Destroy(collision.gameObject);
+            gameManager.CollectKey();
+            //gameManager.GameWin();
+        }
     }
 }
