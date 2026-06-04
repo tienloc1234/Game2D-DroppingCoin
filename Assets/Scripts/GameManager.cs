@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject gameWinUI;
-    [SerializeField] private int requiredCoins = 20;
     private bool isGameOver = false;
     private bool isGameWin = false;
     private bool hasKey = false;
@@ -18,13 +17,13 @@ public class GameManager : MonoBehaviour
         UpdateScore();
         gameOverUI.SetActive(false);
         gameWinUI.SetActive(false);
-        keyText.text = "0";
+        keyText.text = "Keys: 0";
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void AddScore(int amount)
@@ -61,11 +60,15 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene("Game");
     }
-
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene("Menu");
+        Time.timeScale = 1;
+    }
     public void CollectKey()
     {
         hasKey = true;
-        keyText.text = "1";
+        keyText.text = "Key: 1";
     }
 
     public bool HasKey()
@@ -80,10 +83,5 @@ public class GameManager : MonoBehaviour
     public bool IsGameWin()
     {
         return isGameWin;
-    }
-
-    public bool HasAllCoins()
-    {
-        return score >= requiredCoins;
     }
 }
