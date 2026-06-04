@@ -8,24 +8,14 @@ public class PlayerCollision : MonoBehaviour
     {
         gameManager = FindAnyObjectByType<GameManager>();
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Coin"))
         {
-            Destroy(collision.gameObject);
             gameManager.AddScore(1);
-        }
-        if (collision.CompareTag("Trap"))
-        {
-            gameManager.GameOver();
-        }
-        if (collision.CompareTag("DeathZone"))
-        {
-            gameManager.GameOver();
-        }
-        if (collision.CompareTag("Enemy"))
-        {
-            gameManager.GameOver();
+            Debug.Log("Hit Coin");
+            Destroy(collision.gameObject);
         }
     }
 }
