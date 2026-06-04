@@ -5,16 +5,19 @@ public class GameManager : MonoBehaviour
 {
     private int score = 0;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject gameWinUI;
     private bool isGameOver = false;
     private bool isGameWin = false;
+    private bool hasKey = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         UpdateScore();
         gameOverUI.SetActive(false);
         gameWinUI.SetActive(false);
+        keyText.text = "Keys: 0";
     }
 
     // Update is called once per frame
@@ -56,6 +59,17 @@ public class GameManager : MonoBehaviour
         UpdateScore();
         Time.timeScale = 1;
         SceneManager.LoadScene("Game");
+    }
+
+    public void CollectKey()
+    {
+        hasKey = true;
+        keyText.text = "Key: 1";
+    }
+
+    public bool HasKey()
+    {
+        return hasKey;
     }
 
     public bool IsGameOver()
