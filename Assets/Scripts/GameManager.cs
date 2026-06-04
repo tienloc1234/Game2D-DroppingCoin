@@ -22,8 +22,11 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int amount)
     {
-        score += amount;
-        UpdateScore();
+        if (!isGameOver)
+        {
+            score += amount;
+            UpdateScore();
+        }
     }
 
     private void UpdateScore()
