@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         score = 0;
         UpdateScore();
         Time.timeScale = 1;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void GoToMenu()
     {
@@ -89,5 +89,21 @@ public class GameManager : MonoBehaviour
         public bool HasAllCoins()
         {
             return score >= requiredCoins; // Assuming there are 5 coins in the level
+    }
+    public void NextLevel()
+    {
+        Time.timeScale = 1;
+        int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        
+        if (nextIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextIndex);
+        }
+        else
+        {
+        
+            SceneManager.LoadScene("Menu");
+        }
     }
 }
