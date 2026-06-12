@@ -7,6 +7,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float distance = 5f;
     private Vector3 startPos;
     private bool movingRight = true;
+    private bool isDead = false;
+     public void Die()
+    {
+        if (!isDead)
+        {
+            isDead = true;
+            Destroy(gameObject, 0.1f);
+        }
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,6 +25,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead) return;
         float leftBound = startPos.x - distance;
         float rightBound = startPos.x + distance;
         if (movingRight)
