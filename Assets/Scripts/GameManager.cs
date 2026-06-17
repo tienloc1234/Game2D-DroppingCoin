@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject gameWinUI;
-    [SerializeField] private int requiredCoins = 5; 
+    [SerializeField] private int requiredCoins = 20; 
     private bool isGameOver = false;
     private bool isGameWin = false;
     private bool hasKey = false;
@@ -86,9 +86,9 @@ public class GameManager : MonoBehaviour
     {
         return isGameWin;
     }
-        public bool HasAllCoins()
-        {
-            return score >= requiredCoins; // Assuming there are 5 coins in the level
+    public bool HasAllCoins()
+    {
+        return score >= requiredCoins;
     }
     public void NextLevel()
     {
