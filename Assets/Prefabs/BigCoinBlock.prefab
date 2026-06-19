@@ -153,8 +153,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 1438235168066117944, guid: fa77844dcad8c444db016b33fcc13346, type: 3}
   coinCount: 5
-  spawnDelay: 0.12
-  spawnHeight: 0.5
-  rightOffset: 1
-  rightSpacing: 0.35
-  popRightForce: 1
+  spawnDelay: 0.08
+  coinSpacing: 0.5
+  lineOffset: 0.4
