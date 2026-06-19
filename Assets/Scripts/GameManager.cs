@@ -1,45 +1,56 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviour
 {
+    private int coinCount = 0;
     private int score = 0;
-    [SerializeField] private TextMeshProUGUI scoreText;
+
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private TextMeshProUGUI totalScoreText;
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject gameWinUI;
-    [SerializeField] private int requiredCoins = 20; 
+    [SerializeField] private int requiredCoins = 20;
     private bool isGameOver = false;
     private bool isGameWin = false;
     private bool hasKey = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UpdateScore();
+        UpdateUI();
         gameOverUI.SetActive(false);
         gameWinUI.SetActive(false);
         keyText.text = "0";
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CollectCoin()
     {
+        if (isGameOver || isGameWin) return;
 
+        coinCount++;
+        score++;
+        UpdateCoinUI();
+        UpdateScoreUI();
     }
 
-    public void AddScore(int amount)
+    private void UpdateCoinUI()
     {
-        if (!isGameOver && !isGameWin)
-        {
-            score += amount;
-            UpdateScore();
-        }
+        if (coinText != null)
+            coinText.text = coinCount.ToString();
     }
 
-    private void UpdateScore()
+    private void UpdateScoreUI()
     {
-        scoreText.text = score.ToString();
+        if (totalScoreText != null)
+            totalScoreText.text = score.ToString();
+    }
+
+    private void UpdateUI()
+    {
+        UpdateCoinUI();
+        UpdateScoreUI();
     }
 
     public void GameOver()
@@ -48,25 +59,30 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         gameOverUI.SetActive(true);
     }
+
     public void GameWin()
     {
         isGameWin = true;
         Time.timeScale = 0;
         gameWinUI.SetActive(true);
     }
+
     public void RestartGame()
     {
         isGameOver = false;
+        coinCount = 0;
         score = 0;
-        UpdateScore();
+        UpdateUI();
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
     public void GoToMenu()
     {
         SceneManager.LoadScene("Menu");
         Time.timeScale = 1;
     }
+
     public void CollectKey()
     {
         hasKey = true;
@@ -82,27 +98,28 @@ public class GameManager : MonoBehaviour
     {
         return isGameOver;
     }
+
     public bool IsGameWin()
     {
         return isGameWin;
     }
+
     public bool HasAllCoins()
     {
-        return score >= requiredCoins;
+        return coinCount >= requiredCoins;
     }
+
     public void NextLevel()
     {
         Time.timeScale = 1;
         int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-        
         if (nextIndex < SceneManager.sceneCountInBuildSettings)
         {
             SceneManager.LoadScene(nextIndex);
         }
         else
         {
-        
             SceneManager.LoadScene("Menu");
         }
     }
