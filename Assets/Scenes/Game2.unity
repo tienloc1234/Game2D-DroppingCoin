@@ -51605,7 +51605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d470eff9ffcc74d8d7c9da7f9a5e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  scoreText: {fileID: 309702746}
+  coinText: {fileID: 309702746}
   keyText: {fileID: 1055299256}
   gameOverUI: {fileID: 162933315}
   gameWinUI: {fileID: 1335131835}
