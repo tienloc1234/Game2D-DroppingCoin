@@ -4,6 +4,7 @@ public class PlayerCollision : MonoBehaviour
 {
     private GameManager gameManager;
     private AudioManager audioManager;
+
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
@@ -16,7 +17,7 @@ public class PlayerCollision : MonoBehaviour
         {
             Destroy(collision.gameObject);
             audioManager.PlayCoinSound();
-            gameManager.AddScore(1);
+            gameManager.CollectCoin();
         }
 
         if (collision.CompareTag("Trap"))
@@ -31,14 +32,16 @@ public class PlayerCollision : MonoBehaviour
 
         if (collision.CompareTag("Enemy"))
         {
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if (enemy != null && enemy.IsDead) return;
+
             gameManager.GameOver();
         }
 
         if (collision.CompareTag("Key"))
         {
             Destroy(collision.gameObject);
-            //gameManager.CollectKey();
-            gameManager.GameWin();
+            gameManager.CollectKey();
         }
     }
 }

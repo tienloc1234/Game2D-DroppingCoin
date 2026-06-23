@@ -9,6 +9,7 @@ TagManager:
   - DeathZone
   - Enemy
   - Key
+  - Player
   layers:
   - Default
   - TransparentFX
@@ -66,6 +67,9 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 781835735
+    locked: 0
+  - name: Gate
+    uniqueID: 1169934163
     locked: 0
   - name: Player
     uniqueID: 986151483
