@@ -1,11 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class SoundToggleButton : MonoBehaviour
 {
     public Sprite soundOnSprite;
     public Sprite soundOffSprite;
-
     private Image buttonImage;
 
     private void Awake()
@@ -15,43 +14,42 @@ public class SoundToggleButton : MonoBehaviour
 
     private void Start()
     {
-        ApplySound();
         UpdateButtonImage();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.OnSoundStateChanged += OnSoundChanged;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.OnSoundStateChanged -= OnSoundChanged;
+        }
     }
 
     public void ToggleSound()
     {
-        bool isMuted = PlayerPrefs.GetInt("Muted", 0) == 1;
-
-        isMuted = !isMuted;
-
-        PlayerPrefs.SetInt("Muted", isMuted ? 1 : 0);
-        PlayerPrefs.Save();
-
-        ApplySound();
-        UpdateButtonImage();
-
-        Debug.Log(isMuted ? "Sound OFF" : "Sound ON");
+        if (AudioManager.Instance == null)
+        {
+            return;
+        }
+        AudioManager.Instance.ToggleSound();
     }
 
-    private void ApplySound()
+    private void OnSoundChanged(bool isMuted)
     {
-        bool isMuted = PlayerPrefs.GetInt("Muted", 0) == 1;
-        AudioListener.volume = isMuted ? 0f : 1f;
+        UpdateButtonImage();
     }
 
     private void UpdateButtonImage()
     {
-        bool isMuted = PlayerPrefs.GetInt("Muted", 0) == 1;
-
         if (buttonImage == null)
         {
-            Debug.LogWarning("Không tìm th?y Image trên nút Sound");
             return;
         }
-
+        bool isMuted = AudioManager.Instance != null && AudioManager.Instance.IsMuted();
         buttonImage.sprite = isMuted ? soundOffSprite : soundOnSprite;
-
-        Debug.Log(isMuted ? "?ã ??i ?nh sang SOUND OFF" : "?ã ??i ?nh sang SOUND ON");
     }
 }

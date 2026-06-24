@@ -1,17 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-
     public Image soundButtonImage;
     public Sprite soundOnSprite;
     public Sprite soundOffSprite;
-
     private bool isPaused = false;
-    private bool isSoundOn = true;
 
     void Start()
     {
@@ -19,51 +16,42 @@ public class PauseMenu : MonoBehaviour
         {
             pauseMenuUI.SetActive(false);
         }
-
         Time.timeScale = 1f;
 
-        if (PlayerPrefs.HasKey("SoundOn"))
-        {
-            isSoundOn = PlayerPrefs.GetInt("SoundOn") == 1;
-        }
-
-        ApplySoundState();
         UpdateSoundImage();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.OnSoundStateChanged += OnSoundChanged;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.OnSoundStateChanged -= OnSoundChanged;
+        }
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            if (isPaused) ResumeGame();
+            else PauseGame();
         }
     }
 
     public void PauseGame()
     {
-        if (pauseMenuUI != null)
-        {
-            pauseMenuUI.SetActive(true);
-        }
-
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
     }
 
     public void ResumeGame()
     {
-        if (pauseMenuUI != null)
-        {
-            pauseMenuUI.SetActive(false);
-        }
-
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
     }
@@ -76,25 +64,24 @@ public class PauseMenu : MonoBehaviour
 
     public void ToggleSound()
     {
-        isSoundOn = !isSoundOn;
+        if (AudioManager.Instance == null)
+        {
+            return;
+        }
+        AudioManager.Instance.ToggleSound();
+    }
 
-        PlayerPrefs.SetInt("SoundOn", isSoundOn ? 1 : 0);
-        PlayerPrefs.Save();
-
-        ApplySoundState();
+    private void OnSoundChanged(bool isMuted)
+    {
         UpdateSoundImage();
     }
 
-    void ApplySoundState()
-    {
-        AudioListener.volume = isSoundOn ? 1f : 0f;
-    }
-
-    void UpdateSoundImage()
+    private void UpdateSoundImage()
     {
         if (soundButtonImage != null)
         {
-            soundButtonImage.sprite = isSoundOn ? soundOnSprite : soundOffSprite;
+            bool isMuted = AudioManager.Instance != null && AudioManager.Instance.IsMuted();
+            soundButtonImage.sprite = isMuted ? soundOffSprite : soundOnSprite;
         }
     }
 }
