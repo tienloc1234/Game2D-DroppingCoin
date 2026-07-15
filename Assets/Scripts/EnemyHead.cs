@@ -16,7 +16,7 @@ public class EnemyHead : MonoBehaviour
         if (playerBottomY < headTopY - 0.1f) return;
 
         Enemy enemy = GetComponentInParent<Enemy>();
-        if (enemy == null || enemy.IsDead) return;
+        //if (enemy == null || enemy.IsDead) return;
 
         enemy.Stomp(playerRb);
     }
