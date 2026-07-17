@@ -17,6 +17,13 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collision.CompareTag("Coin"))
         {
+            FakeCoin fakeCoin = collision.GetComponent<FakeCoin>();
+            if (fakeCoin != null)
+            {
+                fakeCoin.TriggerTrap();
+                return;
+            }
+
             Destroy(collision.gameObject);
             audioManager.PlayCoinSound();
             gameManager.CollectCoin();

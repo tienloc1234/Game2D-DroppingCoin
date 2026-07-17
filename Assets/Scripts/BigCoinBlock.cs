@@ -50,7 +50,6 @@ public class BigCoinBlock : MonoBehaviour
         //    : new Bounds(transform.position, Vector3.one * 2f);
         Collider2D blockCollider = GetComponent<Collider2D>();
         Bounds bounds = blockCollider.bounds;
-
         Bounds playerBounds = player.bounds;
         ReleaseLayout layout = GetReleaseLayout(playerBounds, bounds);
         bool playerOnLeft = playerBounds.center.x < bounds.center.x;
