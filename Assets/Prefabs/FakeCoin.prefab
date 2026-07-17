@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -817405169
-  m_SortingLayer: 5
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3338749442709606003, guid: 1932a658c3f40e4429223ce5b616e907, type: 3}
@@ -164,7 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e4f1a2c3d5478091abcdef12345678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportPoints: []
+  teleportPoints:
+  - {fileID: 0}
   teleportCooldown: 0.8
-  flashDuration: 0.2
-  trapFlashColor: {r: 1, g: 0.3, b: 0.3, a: 1}
