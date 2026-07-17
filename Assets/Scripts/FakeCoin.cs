@@ -5,8 +5,6 @@ public class FakeCoin : MonoBehaviour
 {
     [SerializeField] private Transform[] teleportPoints;
     [SerializeField] private float teleportCooldown = 0.5f;
-    [SerializeField] private float flashDuration = 0.15f;
-    [SerializeField] private Color trapFlashColor = new Color(1f, 0.3f, 0.3f, 1f);
 
     private SpriteRenderer spriteRenderer;
     private Collider2D coinCollider;
@@ -37,12 +35,12 @@ public class FakeCoin : MonoBehaviour
         if (coinCollider != null)
             coinCollider.enabled = false;
 
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = trapFlashColor;
-            yield return new WaitForSeconds(flashDuration);
-            spriteRenderer.color = originalColor;
-        }
+        //if (spriteRenderer != null)
+        //{
+        //    spriteRenderer.color = trapFlashColor;
+        //    yield return new WaitForSeconds(flashDuration);
+        //    spriteRenderer.color = originalColor;
+        //}
 
         Transform destination = GetRandomDestination();
         if (destination != null)
@@ -55,22 +53,26 @@ public class FakeCoin : MonoBehaviour
         isTeleporting = false;
     }
 
+    //private Transform GetRandomDestination()
+    //{
+    //    if (teleportPoints.Length == 1)
+    //        return teleportPoints[0];
+
+    //    Transform destination;
+    //    int attempts = 0;
+
+    //    do
+    //    {
+    //        destination = teleportPoints[Random.Range(0, teleportPoints.Length)];
+    //        attempts++;
+    //    }
+    //    while (Vector2.Distance(destination.position, transform.position) < 0.5f
+    //           && attempts < 10);
+
+    //    return destination;
+    //}
     private Transform GetRandomDestination()
     {
-        if (teleportPoints.Length == 1)
-            return teleportPoints[0];
-
-        Transform destination;
-        int attempts = 0;
-
-        do
-        {
-            destination = teleportPoints[Random.Range(0, teleportPoints.Length)];
-            attempts++;
-        }
-        while (Vector2.Distance(destination.position, transform.position) < 0.5f
-               && attempts < 10);
-
-        return destination;
-    }
+        return teleportPoints[Random.Range(0, teleportPoints.Length)];
+    }   
 }
