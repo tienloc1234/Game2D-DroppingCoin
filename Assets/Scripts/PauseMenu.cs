@@ -17,8 +17,8 @@ public class PauseMenu : MonoBehaviour
             pauseMenuUI.SetActive(false);
         }
         Time.timeScale = 1f;
-
         UpdateSoundImage();
+        
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.OnSoundStateChanged += OnSoundChanged;
