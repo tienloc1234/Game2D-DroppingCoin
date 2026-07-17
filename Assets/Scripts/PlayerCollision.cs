@@ -1,14 +1,16 @@
-using UnityEngine;
+using UnityEngine; 
 
 public class PlayerCollision : MonoBehaviour
 {
     private GameManager gameManager;
     private AudioManager audioManager;
+    private PlayerController playerController;
 
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
         audioManager = FindAnyObjectByType<AudioManager>();
+        playerController = GetComponent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -18,6 +20,11 @@ public class PlayerCollision : MonoBehaviour
             Destroy(collision.gameObject);
             audioManager.PlayCoinSound();
             gameManager.CollectCoin();
+        }
+        if (collision.CompareTag("Potion"))
+        {
+            Destroy(collision.gameObject);
+            playerController.EnableDoubleJump(12f); // 12 giây double jump
         }
 
         if (collision.CompareTag("Trap"))
