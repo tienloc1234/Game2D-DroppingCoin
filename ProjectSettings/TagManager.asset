@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Key
   - Player
+  - Potion
   layers:
   - Default
   - TransparentFX

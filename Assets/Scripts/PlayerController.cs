@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 6f;
     [SerializeField] private float jumpForce = 15f;
+    [SerializeField] private float doubleJumpForce = 12f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
     private Animator animator;
@@ -11,6 +12,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private GameManager gameManager;
     private AudioManager audioManager;
+
+    private int jumpCount;
+    private int maxJumpCount = 1;
+    private Coroutine doubleJumpTimer;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -39,14 +44,28 @@ public class PlayerController : MonoBehaviour
         if (moveInput > 0) transform.localScale = new Vector3(1, 1, 1);
         else transform.localScale = new Vector3(-1,1,1);
     }
+
+    private bool wasGrounded;
     private void HandleJump()
     {
-        if (Input.GetButtonDown("Jump")) //&& isGrounded)
-        {
-            audioManager.PlayJumpSound();
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        }
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+
+        if (isGrounded && !wasGrounded)
+        {
+            jumpCount = 0;
+        }
+
+        bool canJump = jumpCount < maxJumpCount;
+
+        if (Input.GetButtonDown("Jump") && canJump)
+        {
+            float forceToUse = isGrounded ? jumpForce : doubleJumpForce;
+            audioManager.PlayJumpSound();
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, forceToUse);
+            jumpCount++;
+        }
+
+        wasGrounded = isGrounded;
     }
 
     private void UpdateAnimation()
@@ -55,5 +74,23 @@ public class PlayerController : MonoBehaviour
         bool IsJumping = !isGrounded;
         animator.SetBool("IsRunning", IsRunning);
         animator.SetBool("IsJumping", IsJumping);
+    }
+    public void EnableDoubleJump(float duration)
+    {
+        if (doubleJumpTimer != null)
+        {
+            StopCoroutine(doubleJumpTimer);
+        }
+        doubleJumpTimer = StartCoroutine(DoubleJumpCountdown(duration));
+    }
+
+    private System.Collections.IEnumerator DoubleJumpCountdown(float duration)
+    {
+        maxJumpCount = 2;
+
+        yield return new WaitForSeconds(duration);
+
+        maxJumpCount = 1;
+        doubleJumpTimer = null;
     }
 }
