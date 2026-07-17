@@ -15,6 +15,7 @@ public class SoundToggleButton : MonoBehaviour
     private void Start()
     {
         UpdateButtonImage();
+        
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.OnSoundStateChanged += OnSoundChanged;
