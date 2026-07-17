@@ -45,8 +45,20 @@ public class AudioManager : MonoBehaviour
         effectAudioSource.PlayOneShot(coinClip);
     }
 
+    //public void PlayJumpSound()
+    //{
+    //    effectAudioSource.PlayOneShot(jumpClip);
+    //}
     public void PlayJumpSound()
     {
+        Debug.Log($"effectAudioSource = {effectAudioSource}");
+
+        if (effectAudioSource == null)
+        {
+            Debug.LogError("EffectAudioSource đã bị mất!");
+            return;
+        }
+
         effectAudioSource.PlayOneShot(jumpClip);
     }
 
@@ -62,6 +74,12 @@ public class AudioManager : MonoBehaviour
         PlayerPrefs.Save();
         ApplyMuteState();
         OnSoundStateChanged?.Invoke(isMuted);
+    }
+
+
+    private void OnDestroy()
+    {
+        Debug.Log("AudioManager bị Destroy");
     }
 
     private void ApplyMuteState()
