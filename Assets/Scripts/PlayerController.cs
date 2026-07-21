@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         gameManager = FindAnyObjectByType<GameManager>();
-        audioManager = FindAnyObjectByType<AudioManager>();
+        //audioManager = FindAnyObjectByType<AudioManager>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,7 +60,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && canJump)
         {
             float forceToUse = isGrounded ? jumpForce : doubleJumpForce;
-            audioManager.PlayJumpSound();
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayJumpSound();
+            }
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, forceToUse);
             jumpCount++;
         }
