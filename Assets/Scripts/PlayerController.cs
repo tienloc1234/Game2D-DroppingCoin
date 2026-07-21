@@ -16,12 +16,14 @@ public class PlayerController : MonoBehaviour
     private int jumpCount;
     private int maxJumpCount = 1;
     private Coroutine doubleJumpTimer;
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         gameManager = FindAnyObjectByType<GameManager>();
-        //audioManager = FindAnyObjectByType<AudioManager>();
+        
+       //audioManager = FindAnyObjectByType<AudioManager>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,6 +48,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private bool wasGrounded;
+    
+
     private void HandleJump()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
