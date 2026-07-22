@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         if (moveInput > 0) transform.localScale = new Vector3(1, 1, 1);
-        else transform.localScale = new Vector3(-1,1,1);
+        else if (moveInput < 0) transform.localScale = new Vector3(-1, 1, 1);
     }
 
     private bool wasGrounded;
