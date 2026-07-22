@@ -15,18 +15,17 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Coin"))
+        switch (collision.tag)
         {
-            FakeCoin fakeCoin = collision.GetComponent<FakeCoin>();
-            if (fakeCoin != null)
-            {
-                fakeCoin.TriggerTrap();
-                return;
-            }
+            case "FakeCoin":
+                collision.GetComponent<FakeCoin>()?.TriggerTrap();
+                break;
 
-            Destroy(collision.gameObject);
-            audioManager.PlayCoinSound();
-            gameManager.CollectCoin();
+            case "Coin":
+                Destroy(collision.gameObject);
+                audioManager.PlayCoinSound();
+                gameManager.CollectCoin();
+                break;
         }
         if (collision.CompareTag("Potion"))
         {
