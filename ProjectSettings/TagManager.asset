@@ -11,6 +11,8 @@ TagManager:
   - Key
   - Player
   - Potion
+  - Fake Coin
+  - FakeCoin
   layers:
   - Default
   - TransparentFX
