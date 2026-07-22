@@ -8,7 +8,7 @@ public class Gate : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            //if (gameManager.HasKey() && gameManager.HasAllCoins())
+            if (gameManager.HasKey() && gameManager.HasAllCoins())
             {
                 gameManager.GameWin();
             }

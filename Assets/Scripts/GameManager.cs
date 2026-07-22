@@ -6,19 +6,22 @@ public class GameManager : MonoBehaviour
 {
     private int coinCount = 0;
     private int score = 0;
+    private int totalCoinsInMap = 0;    // mới thêm vào để đếm số coin có trong scene
 
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private TextMeshProUGUI totalScoreText;
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject gameWinUI;
-    [SerializeField] private int requiredCoins = 20;
+    //[SerializeField] private int requiredCoins = 20; đổi lại thay vì fix cứng là 20 thì sẽ lấy số coin có trong scene
     private bool isGameOver = false;
     private bool isGameWin = false;
     private bool hasKey = false;
 
     void Start()
     {
+        totalCoinsInMap = GameObject.FindGameObjectsWithTag("Coin").Length;   // vừa vào là đếm hết tất cả coin có trong scene
+
         UpdateUI();
         gameOverUI.SetActive(false);
         gameWinUI.SetActive(false);
@@ -38,7 +41,7 @@ public class GameManager : MonoBehaviour
     private void UpdateCoinUI()
     {
         if (coinText != null)
-            coinText.text = coinCount.ToString();
+            coinText.text = coinCount + "/" + totalCoinsInMap; // vừa sửa để hiện thị số coin đã thu thập và tổng số coin trong scene
     }
 
     private void UpdateScoreUI()
@@ -106,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     public bool HasAllCoins()
     {
-        return coinCount >= requiredCoins;
+        return coinCount >= totalCoinsInMap;   // vừa sửa lại để kiểm tra xem người chơi đã thu thập đủ số coin trong scene hay chưa
     }
 
     public void NextLevel()
