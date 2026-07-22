@@ -6,18 +6,17 @@ public class FakeCoin : MonoBehaviour
     [SerializeField] private Transform[] teleportPoints;
     [SerializeField] private float teleportCooldown = 0.5f;
 
-    private SpriteRenderer spriteRenderer;
+
     private Collider2D coinCollider;
-    private Color originalColor;
+
     private bool isTeleporting;
 
     void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+
         coinCollider = GetComponent<Collider2D>();
 
-        if (spriteRenderer != null)
-            originalColor = spriteRenderer.color;
+
     }
 
     public void TriggerTrap()
