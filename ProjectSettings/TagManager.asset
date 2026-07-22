@@ -13,6 +13,7 @@ TagManager:
   - Potion
   - Fake Coin
   - FakeCoin
+  - Ice
   layers:
   - Default
   - TransparentFX

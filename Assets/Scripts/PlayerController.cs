@@ -7,8 +7,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float doubleJumpForce = 12f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
+
+    // Moi them vao de truot bang
+    [Header("Movement Feel")]
+    [SerializeField] private float groundAcceleration = 60f;
+    [SerializeField] private float groundDeceleration = 60f;
+    [SerializeField] private float iceAcceleration = 20f;
+    [SerializeField] private float iceDeceleration = 4f;
+    [SerializeField] private string iceTag = "Ice";
+
+
     private Animator animator;
     private bool isGrounded;
+    private bool isOnIce; // moi them vao de truot bang
     private Rigidbody2D rb;
     private GameManager gameManager;
     private AudioManager audioManager;
@@ -42,7 +53,20 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         float moveInput = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+
+        // theem moi vao de truot bang
+        float targetSpeed = moveInput * moveSpeed;
+
+        float accel = isOnIce ? iceAcceleration : groundAcceleration;
+        float decel = isOnIce ? iceDeceleration : groundDeceleration;
+
+        float rate = (Mathf.Abs(targetSpeed) > 0.01f) ? accel : decel;
+
+        float newX = Mathf.MoveTowards(rb.linearVelocity.x, targetSpeed, rate * Time.deltaTime);
+        rb.linearVelocity = new Vector2(newX, rb.linearVelocity.y);
+
+
+        //rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         if (moveInput > 0) transform.localScale = new Vector3(1, 1, 1);
         else if (moveInput < 0) transform.localScale = new Vector3(-1, 1, 1);
     }
@@ -52,7 +76,11 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        Collider2D groundHit = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        //isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        //them moi vao de truot bang
+        isGrounded = groundHit != null;
+        isOnIce = isGrounded && groundHit.CompareTag(iceTag);
 
         if (isGrounded && !wasGrounded)
         {
