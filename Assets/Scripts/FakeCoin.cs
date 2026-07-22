@@ -34,14 +34,6 @@ public class FakeCoin : MonoBehaviour
 
         if (coinCollider != null)
             coinCollider.enabled = false;
-
-        //if (spriteRenderer != null)
-        //{
-        //    spriteRenderer.color = trapFlashColor;
-        //    yield return new WaitForSeconds(flashDuration);
-        //    spriteRenderer.color = originalColor;
-        //}
-
         Transform destination = GetRandomDestination();
         if (destination != null)
             transform.position = destination.position;
@@ -52,25 +44,6 @@ public class FakeCoin : MonoBehaviour
             coinCollider.enabled = true;
         isTeleporting = false;
     }
-
-    //private Transform GetRandomDestination()
-    //{
-    //    if (teleportPoints.Length == 1)
-    //        return teleportPoints[0];
-
-    //    Transform destination;
-    //    int attempts = 0;
-
-    //    do
-    //    {
-    //        destination = teleportPoints[Random.Range(0, teleportPoints.Length)];
-    //        attempts++;
-    //    }
-    //    while (Vector2.Distance(destination.position, transform.position) < 0.5f
-    //           && attempts < 10);
-
-    //    return destination;
-    //}
     private Transform GetRandomDestination()
     {
         return teleportPoints[Random.Range(0, teleportPoints.Length)];
