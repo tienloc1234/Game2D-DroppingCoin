@@ -8,7 +8,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
 
-    //Mới được thêm vào để sa lầy map 3
+    // Dùng để leo cầu thang ở map rừng rậm
+    [Header("Ladder")]
+    [SerializeField] private float climbSpeed = 4f;
+    [SerializeField] private string ladderTag = "Ladder";
+    private bool isOnLadder = false;
+    private bool isTouchingLadder = false;
+    private float originalGravityScale;
+
+    //Mới được thêm vào để sa lầy ở map 3
     [Header("Sand")]
     [SerializeField] private float sandSpeedMultiplier = 0.4f;
     [SerializeField] private float sandAcceleration = 15f;
@@ -40,8 +48,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         gameManager = FindAnyObjectByType<GameManager>();
-        
-       //audioManager = FindAnyObjectByType<AudioManager>();
+        originalGravityScale = rb.gravityScale;
+
+        //audioManager = FindAnyObjectByType<AudioManager>();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -55,6 +64,7 @@ public class PlayerController : MonoBehaviour
         if (gameManager.IsGameOver() || gameManager.IsGameWin()) return;
         HandleMovement();
         HandleJump();
+        HandleLadder();
         UpdateAnimation();
     }
     private void HandleMovement()
@@ -134,5 +144,49 @@ public class PlayerController : MonoBehaviour
 
         maxJumpCount = 1;
         doubleJumpTimer = null;
+    }
+
+    // Hàm này dùng để xử lý việc leo cầu thang trong game. Khi người chơi chạm vào cầu thang và nhấn nút di chuyển lên hoặc xuống, 
+    //nhân vật sẽ bắt đầu leo cầu thang. Trong khi leo, trọng lực của nhân vật sẽ bị vô hiệu hóa để cho phép di chuyển theo chiều dọc. 
+    //Nếu người chơi nhấn nút nhảy trong khi đang leo cầu thang, nhân vật sẽ thoát khỏi trạng thái leo và rơi xuống với lực nhảy được áp dụng.
+    private void HandleLadder()
+    {
+        float vertical = Input.GetAxis("Vertical");
+
+        if (isTouchingLadder && Mathf.Abs(vertical) > 0.1f)
+        {
+            isOnLadder = true;
+            rb.gravityScale = 0f;
+        }
+
+        if (isOnLadder)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, vertical * climbSpeed);
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                isOnLadder = false;
+                rb.gravityScale = originalGravityScale;
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag(ladderTag))
+        {
+            isTouchingLadder = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag(ladderTag))
+        {
+            isTouchingLadder = false;
+            isOnLadder = false;
+            rb.gravityScale = originalGravityScale;
+        }
     }
 }
