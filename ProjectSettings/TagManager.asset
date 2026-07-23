@@ -16,6 +16,7 @@ TagManager:
   - Ice
   - Sand
   - Ladder
+  - Bounds
   layers:
   - Default
   - TransparentFX
