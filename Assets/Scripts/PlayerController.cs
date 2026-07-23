@@ -8,6 +8,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
 
+    //Mới được thêm vào để sa lầy map 3
+    [Header("Sand")]
+    [SerializeField] private float sandSpeedMultiplier = 0.4f;
+    [SerializeField] private float sandAcceleration = 15f;
+    [SerializeField] private string sandTag = "Sand";
+
     // Moi them vao de truot bang
     [Header("Movement Feel")]
     [SerializeField] private float groundAcceleration = 60f;
@@ -20,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private bool isGrounded;
     private bool isOnIce; // moi them vao de truot bang
+    private bool isOnSand; // Mới thêm vào để sa lầy map 3
     private Rigidbody2D rb;
     private GameManager gameManager;
     private AudioManager audioManager;
@@ -54,19 +61,17 @@ public class PlayerController : MonoBehaviour
     {
         float moveInput = Input.GetAxis("Horizontal");
 
-        // theem moi vao de truot bang
-        float targetSpeed = moveInput * moveSpeed;
+        float speedMultiplier = isOnSand ? sandSpeedMultiplier : 1f;
+        float targetSpeed = moveInput * moveSpeed * speedMultiplier;
 
-        float accel = isOnIce ? iceAcceleration : groundAcceleration;
-        float decel = isOnIce ? iceDeceleration : groundDeceleration;
+        float accel = isOnIce ? iceAcceleration : (isOnSand ? sandAcceleration : groundAcceleration);
+        float decel = isOnIce ? iceDeceleration : (isOnSand ? sandAcceleration : groundDeceleration);
 
         float rate = (Mathf.Abs(targetSpeed) > 0.01f) ? accel : decel;
 
         float newX = Mathf.MoveTowards(rb.linearVelocity.x, targetSpeed, rate * Time.deltaTime);
         rb.linearVelocity = new Vector2(newX, rb.linearVelocity.y);
 
-
-        //rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         if (moveInput > 0) transform.localScale = new Vector3(1, 1, 1);
         else if (moveInput < 0) transform.localScale = new Vector3(-1, 1, 1);
     }
@@ -81,6 +86,8 @@ public class PlayerController : MonoBehaviour
         //them moi vao de truot bang
         isGrounded = groundHit != null;
         isOnIce = isGrounded && groundHit.CompareTag(iceTag);
+        isOnSand = isGrounded && groundHit.CompareTag(sandTag);
+
 
         if (isGrounded && !wasGrounded)
         {
